@@ -1,4 +1,7 @@
 const MathOperators = () => {
+    const addValues = () => {
+        
+    }
     return (
         <div id="operator-container" className="flex justify center">
             <button id="add" className="">+</button>
