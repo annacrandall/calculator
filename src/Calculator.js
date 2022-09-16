@@ -1,4 +1,4 @@
-/* eslint-disable no-eval */
+import { evaluate } from "mathjs";
 import React, { useState } from "react";
 
 const buttons = [{ name: "zero", value: "0", key: "0" },
@@ -12,21 +12,17 @@ const buttons = [{ name: "zero", value: "0", key: "0" },
 
 const Calculator = () => {
   const [input, setInput] = useState("");
-  const [result, setResult] = useState("");
-  const operator = ["/", ".", "+", "-", "*"];
+
 
   const updateInput = (e) => {
     setInput(input + e.target.value)
   }
 
-  const calculateInput = (value) => {
-    if ((operator.includes(value) && input === "") || (operator.includes(value) && operator.includes(input.slice(-1)))) {
-      return;
-    }
-    setInput(input + value)
-
-    if (!operator.includes(value)) {
-      setResult(eval(input + value))
+  const calculateInput = () => {
+    try {
+      setInput(evaluate(input))
+    } catch (error) {
+      setInput("Error")
     }
   }
 
@@ -55,8 +51,8 @@ const Calculator = () => {
         ))}
       </div>
       <button id="equals" className="border-2 p-1" value="="
-        onClick={() => calculateInput()}>=</button>
-      <button id="clear" className="border-2 p-1" onClick={() => clearCalculator()}>Clear</button>
+        onClick={calculateInput}>=</button>
+      <button id="clear" className="border-2 p-1" onClick={clearCalculator}>Clear</button>
 
     </div>
   );
