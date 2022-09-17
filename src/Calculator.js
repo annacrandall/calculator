@@ -1,39 +1,78 @@
-import { evaluate } from "mathjs";
+import { evaluate, parse } from "mathjs";
 import React, { useState } from "react";
 
-const buttons = [{ name: "zero", value: "0", key: "0" },
-{ name: "one", value: "1", key: "1" }, { name: "two", value: "2", key: "2" },
-{ name: "three", value: "3", key: "3" }, { name: "four", value: "4", key: "4" },
-{ name: "five", value: "5", key: "5" }, { name: "six", value: "6", key: "6" },
-{ name: "seven", value: "7", key: "7" }, { name: "eight", value: "8", key: "8" },
-{ name: "nine", value: "9", key: "9" }, { name: "multiply", value: "*", key: "*" },
-{ name: "add", value: "+", key: "+" }, { name: "subtract", value: "-", key: "-" },
-  { name: "divide", value: "/", key: "/" }, { name: "decimal", value: ".", key: "," }]; 
 
 const Calculator = () => {
-  const [input, setInput] = useState("");
-
+  const [input, setInput] = useState("0");
+  const [result, setResult] = useState(""); 
+  
+  const handleOperatorClick = ({ target: { value } }) => {
+    if (result) { 
+      return setInput(result + value); 
+    } 
+      const lastIndex = input[input.length - 1]
+      const isOperator = "+-*/".includes(lastIndex)
+      console.log(isOperator)
+      if (!isOperator || value === "-") {
+        setInput(input + value)
+      } else {
+        const uh = input[input.length - 2]
+        const fubar = "+-*/".includes(uh)
+        const newInput = input.slice(0, fubar ? -2 : -1) + value;
+        console.log(newInput)
+        setInput(newInput)
+      }
+    }
+  
+  const handleDecimalClick = () => {
+      try {
+        parse(input + ".")
+        setInput(input + ".")
+      } catch (error) {
+        console.log("Learn math nerd.")
+      }
+    }
 
   const updateInput = (e) => {
+    setResult("")
+    if (input === "0") {
+      return setInput(e.target.value)
+    }
+    const isValid = input !== "0" || e.target.value !== "0" 
+    if (!isValid) {
+      return null; 
+    }
     setInput(input + e.target.value)
   }
-
+  
   const calculateInput = () => {
-    try {
-      setInput(evaluate(input))
-    } catch (error) {
-      setInput("Error")
-    }
+    setResult(evaluate(input)); 
+    setInput("0"); 
   }
-
-
+  
+  
   const clearCalculator = () => {
-    try {
-      setInput("")
-    } catch (error) {
-      setInput("Error")
-    }
+    setResult("")
+    setInput("0")
   }
+  
+  const buttons = [
+    { name: "zero", value: "0" },
+    { name: "one", value: "1"},
+    { name: "two", value: "2"},
+    { name: "three", value: "3"},
+    { name: "four", value: "4"},
+    { name: "five", value: "5"},
+    { name: "six", value: "6"},
+    { name: "seven", value: "7"},
+    { name: "eight", value: "8"},
+    { name: "nine", value: "9"},
+    { name: "multiply", value: "*", onClick: handleOperatorClick},
+    { name: "add", value: "+", onClick: handleOperatorClick },
+    { name: "subtract", value: "-", onClick: handleOperatorClick},
+    { name: "divide", value: "/", onClick: handleOperatorClick},
+    { name: "decimal", value: ".", onClick: handleDecimalClick }];
+  
   return (
 
     <div id="screen" className="flex justify-center">
@@ -41,13 +80,13 @@ const Calculator = () => {
         FreeCodeCamp JavaScript Calculator</h1>
 
       <div id="display" className="border-2 border-black">
-        {input || 0}
+        {result ||input || 0}
       </div>
 
       <div id="digit-container">
-        {buttons.map(({ name, value, key }) => (
-          <button className="border-2 p-1" id={name} value={value} key={key}
-            onClick={updateInput}>{value}</button>
+        {buttons.map(({ name, value, onClick = updateInput}) => (
+          <button className="border-2 p-1" id={name} value={value} key={value}
+            onClick={onClick}>{value}</button>
         ))}
       </div>
       <button id="equals" className="border-2 p-1" value="="
