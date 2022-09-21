@@ -16,9 +16,9 @@ const Calculator = () => {
       if (!isOperator || value === "-") {
         setInput(input + value)
       } else {
-        const uh = input[input.length - 2]
-        const fubar = "+-*/".includes(uh)
-        const newInput = input.slice(0, fubar ? -2 : -1) + value;
+        const opsLocation = input[input.length - 2]
+        const operatorExists = "+-*/".includes(opsLocation)
+        const newInput = input.slice(0, operatorExists ? -2 : -1) + value;
         console.log(newInput)
         setInput(newInput)
       }
@@ -75,24 +75,29 @@ const Calculator = () => {
   
   return (
 
-    <div id="screen" className="flex justify-center">
-      <h1 className="font-mono content-center">
-        FreeCodeCamp JavaScript Calculator</h1>
-
-      <div id="display" className="border-2 border-black">
-        {result ||input || 0}
+    <div id="screen-display" className="font-mono text-center m-10">
+      <h1 className="m-5 mb-9 text-xl">
+        FreeCodeCamp JavaScript Calculator </h1>
+      <div id="calculator-container" className="h-screen justify-center border-2 border-slate-700 rounded bg-zinc-400">
+         <div id="input-display" className="border-2 border-slate-700 bg-zinc-200 rounded text-3xl p-4  m-4 mt-10">
+          {result ||input || 0}
       </div>
 
-      <div id="digit-container">
+    <div id="digit-container" className="grid grid-cols-3 gap-4 p-10 mt-3">
         {buttons.map(({ name, value, onClick = updateInput}) => (
-          <button className="border-2 p-1" id={name} value={value} key={value}
+          <button className="border-2 px-2 py-5 rounded bg-stone-400 border-slate-700" id={name} value={value} key={value}
             onClick={onClick}>{value}</button>
-        ))}
-      </div>
-      <button id="equals" className="border-2 p-1" value="="
-        onClick={calculateInput}>=</button>
-      <button id="clear" className="border-2 p-1" onClick={clearCalculator}>Clear</button>
+         ))}
+    </div>
 
+     <div id="button-container" className="m-3">
+       <button id="equals" className="border-2 px-4 py-2 mx-4 rounded border-slate-700 bg-stone-300 " value="="
+          onClick={calculateInput}>=</button>
+        
+        <button id="clear" className="border-2 px-3 py-2 mx-4 rounded border-slate-700 bg-amber-600 hover:border-white"
+            onClick={clearCalculator}>Clear</button>
+        </div>
+      </div>
     </div>
   );
 }
