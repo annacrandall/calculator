@@ -3,7 +3,7 @@
 
 
 ## Description 
-This project was bootstrapped with Create React App, TailwindCSS, and Math.js.\
+This project was bootstrapped with Create React App, TailwindCSS, and Math.js.
 
 ## Deploy to a local server: 
 
