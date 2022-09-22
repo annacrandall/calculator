@@ -78,23 +78,23 @@ const Calculator = () => {
     <div id="screen-display" className="font-mono text-center m-10">
       <h1 className="m-5 mb-9 text-xl">
         FreeCodeCamp JavaScript Calculator </h1>
-      <div id="calculator-container" className="h-screen justify-center border-2 border-slate-700 rounded bg-zinc-400">
-         <div id="input-display" className="border-2 border-slate-700 bg-zinc-200 rounded text-3xl p-4  m-4 mt-10">
+      <div id="calculator-container" className="h-screen justify-center border-2 border-slate-700 rounded bg-zinc-400 drop-shadow-2xl">
+         <div id="input-display" className="border-2 border-slate-700 bg-zinc-200 rounded text-3xl p-4  m-4 mt-10 drop-shadow-xl">
           {result ||input || 0}
       </div>
 
     <div id="digit-container" className="grid grid-cols-3 gap-4 p-10 mt-3">
         {buttons.map(({ name, value, onClick = updateInput}) => (
-          <button className="border-2 px-2 py-5 rounded bg-stone-400 border-slate-700" id={name} value={value} key={value}
+          <button className="border-2 border-double px-2 py-5 rounded bg-stone-400 border-slate-700 drop-shadow-xl hover:underline decoration-dotted" id={name} value={value} key={value}
             onClick={onClick}>{value}</button>
          ))}
     </div>
 
      <div id="button-container" className="m-3">
-       <button id="equals" className="border-2 px-4 py-2 mx-4 rounded border-slate-700 bg-stone-300 " value="="
+       <button id="equals" className="border-2 px-4 py-2 mx-4 rounded border-slate-700 bg-stone-300 drop-shadow-xl" value="="
           onClick={calculateInput}>=</button>
         
-        <button id="clear" className="border-2 px-3 py-2 mx-4 rounded border-slate-700 bg-amber-600 hover:border-white"
+        <button id="clear" className="drop-shadow-xl border-2 px-3 py-2 mx-4 rounded border-slate-700 bg-amber-600 hover:border-white"
             onClick={clearCalculator}>Clear</button>
         </div>
       </div>
